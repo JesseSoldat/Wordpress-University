@@ -1623,10 +1623,15 @@
       padding: 0;
     }
   }
+ 
   
   .main-navigation .current-menu-item a,
   .main-navigation a:hover {
     color: #FAF0CA;
+  }
+
+  .current-menu-item {
+    color: #FAF0CA !important;
   }
   
   .page-banner {
