@@ -62,7 +62,7 @@ while(have_posts()) {
             <a class="professor-card"
               href="<?php the_permalink(); ?>"
             > 
-              <img src="<?php the_post_thumbnail_url() ?>" 
+              <img src="<?php the_post_thumbnail_url('professorLandscape') ?>" 
                 alt="professor" 
                 class="professor-card__image"
               >
