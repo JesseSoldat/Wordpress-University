@@ -42,39 +42,31 @@ while(have_posts()) {
     </div>
 
     <?php 
-      //$relatedProfessors------------------------
-      $relatedProfessors = new WP_Query(array(
+      //$relatedPrograms------------------------
+      $relatedPrograms = new WP_Query(array(
         'posts_per_page' => -1,
-        'post_type' => 'professor',
+        'post_type' => 'program',
         'orderby' => 'title',
         'order' => 'ASC',
         'meta_query' => array(
           array(
-            'key' => 'related_programs',
+            'key' => 'related_campus',
             'compare' => 'LIKE',
             'value' => '"' . get_the_ID() . '"'
           )
         )
       ));
 
-      if($relatedProfessors->have_posts()) {
+      if($relatedPrograms->have_posts()) {
         echo '<hr class="section-break">';
-        echo '<h4 class="headline headline--medium">' . get_the_title() . ' Professors</h4><br>';
-        echo '<ul class="professor-cards"';
-        while($relatedProfessors->have_posts()) {
-          $relatedProfessors->the_post();
+        echo '<h4 class="headline headline--medium">Programs Available At This Campus</h4><br>';
+        echo '<ul class="min-list link-list">';
+        while($relatedPrograms->have_posts()) {
+          $relatedPrograms->the_post();
       ?>
-          <li class="professor-card__list-item">
-            <a class="professor-card"
-              href="<?php the_permalink(); ?>"
-            > 
-              <img src="<?php the_post_thumbnail_url('professorLandscape') ?>" 
-                alt="professor" 
-                class="professor-card__image"
-              >
-              <span class="professor-card__name">
-                <?php the_title(); ?>
-              </span>
+          <li>
+            <a href="<?php the_permalink(); ?>"> 
+              <?php the_title(); ?>
             </a>
           </li>
 
@@ -86,44 +78,7 @@ while(have_posts()) {
       //so that functions like the_ID(); and the_title(); will get the id and title for the page and not the custom query
       //reset to default URL query
       wp_reset_postdata();
-
-      //$homepageEvents----------------------------------------
-      $today = date('Ymd');
-      $homepageEvents = new WP_Query(array(
-        'posts_per_page' => 2,
-        'post_type' => 'event',
-        'meta_key' => 'event_date',
-        'orderby' => 'meta_value_num',
-        'order' => 'ASC',
-        'meta_query' => array(
-          array(
-            'key' => 'event_date',
-            'compare' => '>=',
-            'value' => $today,
-            'type' => 'numeric'
-          ),
-          array(
-            'key' => 'related_programs',
-            'compare' => 'LIKE',
-            'value' => '"' . get_the_ID() . '"'
-          )
-        )
-      ));
-
-      if($homepageEvents->have_posts()) {
-        echo '<hr class="section-break">';
-        echo '<h4 class="headline headline--medium">Upcoming ' . get_the_title() . ' Events</h4><br>';
-
-        while($homepageEvents->have_posts()) {
-          $homepageEvents->the_post();
-          get_template_part('template-parts/content', 'event');
-          echo '<br><br>'; 
-        }
-      }
-        //clean up after custom query
-        wp_reset_postdata();
     ?>
-
   </div>
 <?php 
 }
