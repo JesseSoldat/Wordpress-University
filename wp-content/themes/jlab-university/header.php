@@ -4,7 +4,23 @@
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 
+  <div id="map"></div>
+    <script>
+      function initMap() {
+        var uluru = {lat: -25.363, lng: 131.044};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 8,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+      }
+    </script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5xaGvuFwb8iXTy2BX-jmDjOHu_urbgsI&callback=initMap">
+    </script>
   <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
@@ -43,7 +59,11 @@
                 Events
               </a>
             </li>
-            <li><a href="#">Campuses</a></li>
+            <li <?php if (get_post_type() == 'campus') echo 'class="current-menu-item"' ?>>
+              <a href="<?php echo get_post_type_archive_link('campus'); ?>">
+                Campuses
+              </a>
+            </li>
             <li <?php if(get_post_type() == 'post') echo 'class="current-menu-item"' ?>>
               <a href="<?php echo site_url('/blog') ?>">
                 Blog
